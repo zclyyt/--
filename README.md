@@ -1,2 +1,2 @@
 //nothing special
-//It's just a normal learning experence records
+//It's just a normal learning experence record
