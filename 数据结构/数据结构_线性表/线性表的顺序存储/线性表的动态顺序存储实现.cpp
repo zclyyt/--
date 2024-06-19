@@ -5,11 +5,11 @@
 
 typedef int ElemType; // Define ElemType for consistency
 
-struct SeqList {
+typedef struct SeqList {
     int *data;  // Pointer indicating a dynamically allocated array
     int length; // The current length of the array
     int MaxSize;// The maximum size of the array
-};
+}SeqList;
 
 void InitList(SeqList &L) { // Enter parameters by reference
     L.data = (int *)malloc(InitSize * sizeof(int)); // Allocate a continuous memory space for data
@@ -47,28 +47,40 @@ ElemType GetElem(const SeqList &L, int pos) {
     }
     return L.data[pos - 1];
 }
-
+ElemType InsertElem(SeqList &L,int pos ,int character){
+    if (pos < 1 || pos > L.length) {
+        std::cerr << "Position out of range" << std::endl;
+        exit(1);
+    }
+    if (L.length == L.MaxSize) {
+        IncreaseSize(L, 10); // Increase size if the list is full
+    }
+    for ( int i = L.length; i >= pos; i--)
+    {
+        L.data[i]=L.data[i-1];
+    }
+    L.data[pos-1]=character;
+    L.length++;
+}
+    
 // Test
 int main() {
     SeqList L;
     InitList(L);
     std::cout << "Initial MaxSize: " << L.MaxSize << std::endl;
-
-    // Add elements to L to simulate usage
-    for (int i = 0; i < L.MaxSize; i++) {
-        L.data[i] = i;
-        L.length++;
+    
+    for (int i = 0; i < L.length; i++) {
+        std::cout << L.data[i] << " ";
     }
-
+    std::cout << std::endl;
+    // Add elements to L to simulate usage
+    InsertElem(&L,4,6)
     // Increase size of the list
     IncreaseSize(L, 10);
     std::cout << "Increased MaxSize: " << L.MaxSize << std::endl;
 
     // Verify new array contents
-    for (int i = 0; i < L.length; i++) {
-        std::cout << L.data[i] << " ";
-    }
-    std::cout << std::endl;
+
 
     // Test GetElem function
     for (int i = 1; i <= L.length; i++) {
